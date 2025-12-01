@@ -1,0 +1,60 @@
+paths:
+  orders_deals_excel: data/data_challenge_imperium.xlsx   # arkusz z orders i deals
+  candles_csv: data/XAUUSD_5min_candles.csv
+  candles_features: artifacts/candles_features.parquet
+  orders_deals_excel: data/data_challenge_imperium.xlsx
+  orders_enriched: artifacts/orders_enriched.parquet
+  deals_enriched: artifacts/deals_enriched.parquet
+  cluster_assignments: artifacts/cluster_assignments.parquet
+  plots_dir: artifacts/plots
+
+candles:
+  time_col: Timestamp
+  ohlc_cols: [Open, High, Low, Close]
+  indicators:
+    spread_col: Spread (Pips)
+    rsi_col: RSI(14)
+    ma20_col: MA(20,SMA)
+    macd_main_col: MACD Main
+    macd_signal_col: MACD Signal
+    atr14_col: ATR(14)
+    adx14_col: ADX(14)
+    plusdi_col: plusDI(14)
+    minusdi_col: minusDI(14)
+    stochk_col: StochK(14)
+    stochd_col: StochD(14)
+    bb_upper_col: BB_Upper
+    bb_mid_col: BB_Mid
+    bb_lower_col: BB_Lower
+  dtypes_float: float32
+  parse_dates: true
+  sep: ";"
+
+features:
+  rv_window_bars: 48              # realized volatility (4h okno)
+  ema_window: 50
+  trend_slope_window_bars: 60     # slope z ~5h
+
+clustering:
+  min_cluster_size: 30
+  pca_components: 5
+  feature_cols:
+    - duration_min
+    - entry_rv_4h
+    - entry_atr14
+    - size
+    - rr
+    - session_code
+    - dir_bias
+    - entry_spread_pips
+    - entry_adx14
+    - entry_rsi14
+
+robustness:
+  volatility_filter:
+    rv_min_quantile: 0.2
+    rv_max_quantile: 0.8
+  adx_threshold: 20
+  europe_hours: [8, 16]
+  us_hours: [14, 22]
+  spread_max_pips: 30.0
