@@ -30,6 +30,7 @@ Kod
 From the project root:
 ```bash
 python src/solution.py
+```
 Artifacts will be generated in the artifacts/ folder.
 
 Notes
